@@ -1,0 +1,76 @@
+def print_board(board):
+    # Print the current state of the board
+    for row in board:
+        print(" | ".join(row))
+        print("-" * 5)
+
+def check_winner(board, player):
+    # Check all possible winning combinations
+    if (board[0][0] == board[0][1] == board[0][2] == player) or \
+       (board[1][0] == board[1][1] == board[1][2] == player) or \
+       (board[2][0] == board[2][1] == board[2][2] == player) or \
+       (board[0][0] == board[1][0] == board[2][0] == player) or \
+       (board[0][1] == board[1][1] == board[2][1] == player) or \
+       (board[0][2] == board[1][2] == board[2][2] == player) or \
+       (board[0][0] == board[1][1] == board[2][2] == player) or \
+       (board[2][0] == board[1][1] == board[0][2] == player):
+        return True
+    return False
+
+def tic_tac_toe():
+    # Initialize the board
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    current_player = "X"
+
+    while True:
+        print_board(board)
+        move = input(f"Player {current_player}, enter your move (1-9): ")
+
+        # Map the move to board coordinates
+        if move == "1":
+            row, col = 0, 0
+        elif move == "2":
+            row, col = 0, 1
+        elif move == "3":
+            row, col = 0, 2
+        elif move == "4":
+            row, col = 1, 0
+        elif move == "5":
+            row, col = 1, 1
+        elif move == "6":
+            row, col = 1, 2
+        elif move == "7":
+            row, col = 2, 0
+        elif move == "8":
+            row, col = 2, 1
+        elif move == "9":
+            row, col = 2, 2
+        else:
+            print("Invalid move. Try again.")
+            continue
+
+        # Check if the move is valid
+        if board[row][col] != " ":
+            print("Invalid move. Try again.")
+            continue
+
+        # Place the player's mark on the board
+        board[row][col] = current_player
+
+        # Check if the current player has won
+        if check_winner(board, current_player):
+            print_board(board)
+            print(f"Player {current_player} wins!")
+            break
+
+        # Check if the game is a draw
+        if all(cell != " " for row in board for cell in row):
+            print_board(board)
+            print("It's a draw!")
+            break
+
+        # Switch players
+        current_player = "O" if current_player == "X" else "X"
+
+# Start the game
+tic_tac_toe()
